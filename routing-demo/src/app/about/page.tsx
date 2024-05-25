@@ -1,4 +1,7 @@
-import React from 'react'
+export const metadata = {
+  title: "About Next.js 14",
+};
+
 
 const About = () => {
   return (
