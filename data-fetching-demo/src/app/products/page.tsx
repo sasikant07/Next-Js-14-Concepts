@@ -1,3 +1,7 @@
+import { revalidateTag } from "next/cache";
+import { cookies } from "next/headers";
+// export const fetchCache = "default-cache";
+
 type Product = {
   id: number;
   title: string;
@@ -6,8 +10,18 @@ type Product = {
 };
 
 export default async function ProductsPage() {
-  const response = await fetch("http://localhost:3001/products");
+  const response = await fetch("http://localhost:3001/products", {
+    next: {
+      revalidate: 10,
+    },
+  });
   const products = await response.json();
+
+  // const cookieStore = cookies();
+  // cookieStore.get("theme");
+
+  // const detailsResponse = await fetch("http://localhost:3001/products/1");
+  // const details = await detailsResponse.json();
 
   return (
     <ul className="space-y-4 p-4">
@@ -19,6 +33,7 @@ export default async function ProductsPage() {
           <h2 className="text-xl font-semibold">{product.title}</h2>
           <p>{product.description}</p>
           <p className="text-lg font-medium">${product.price}</p>
+          {/* <p>{details.price}</p> */}
         </li>
       ))}
     </ul>
